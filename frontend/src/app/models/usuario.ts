@@ -1,5 +1,3 @@
-import { identity } from 'rxjs';
-
 export class Usuario {
     _id:number;
     usuario:string;

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 //servicios
 import { LoginService } from './services/login.service';
+import { AfiliadoService } from './services/afiliado.service';
 
 
 
@@ -47,7 +48,8 @@ import { NoticiasComponent } from './components/noticias/noticias.component';
 
   //servicio
   providers: [
-    LoginService
+    LoginService,
+    AfiliadoService
   ],
   bootstrap: [AppComponent]
 })

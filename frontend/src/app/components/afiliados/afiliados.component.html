@@ -1,1 +1,123 @@
-<p>afiliados works!</p>
+<div>
+    <form class="card" method="POST" action="" #formAfiliado="ngForm">
+        <div class="card-header text-center">
+            <h3 class="h3">Gestion de Afiliados</h3>
+        </div>
+        <div class="card-body">
+            <div class="row form-group">
+                <label for="nombres" class="col-sm-12 col-md-1  offset-md-4 offset-lg-4">Nombres</label>
+                <input id="nombres" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
+                    maxlength="30" name="nombres" #nombres="ngModel" [(ngModel)]="afiliado.nombres" />
+            </div>
+            <div class="row form-group">
+                <label for="apellido" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Apellido</label>
+                <input id="apellido" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
+                    maxlength="30" name="apellido" #apellido="ngModel" [(ngModel)]="afiliado.apellido" />
+            </div>
+            <div class="row form-group">
+                <label for="dni" class="col-sm-12 col-md-1 offset-md-4">DNI</label>
+                <input id="dni" class="form-control col-sm-12 col-md-2" type="number" required minlength="3"
+                    maxlength="9" name="dni" #dni="ngModel" [(ngModel)]="afiliado.dni" />
+            </div>
+            <div class="row form-group">
+                <label for="email" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Email</label>
+                <input id="email" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
+                    maxlength="30" name="email" #email="ngModel" [(ngModel)]="afiliado.email" />
+            </div>
+            <div class="row form-group">
+                <label for="imagen" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Imagen</label>
+                <input id="imagen" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
+                    maxlength="30" name="imagen" #imagen="ngModel" [(ngModel)]="afiliado.imagen" />
+            </div>
+            <div class="row form-group">
+                <label for="telefono" class="col-sm-12 col-md-1 offset-md-4">Telefono</label>
+                <input id="telefono" class="form-control col-sm-12 col-md-2" type="number" required minlength="3"
+                    maxlength="9" name="telefono" #telefono="ngModel" [(ngModel)]="afiliado.telefono" />
+            </div>
+            <div class="row form-group justify-content-center">
+                <button type="button" class="btn btn-secondary " [disabled]="formAfiliado.invalid"
+                    (click)="registrarAfiliado()">Registrar</button>
+            </div>
+        </div>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nombres</th>
+                    <th scope="col">Apellidos</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of afiliados">
+                    <th scope="row">{{i.nombres}}</th>
+                    <td>{{i.apellido}}</td>
+                    <td>{{i.dni}}</td>
+                    <td>{{i.email}}</td>
+                    <td>
+                        <div class="row form-group justify-content-center">
+                            <button type="button" class="btn btn-primary " (click)="seleccionarAfiliado(i)"
+                                data-toggle="modal" data-target="#exampleModalCenter">Seleccionar</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <!--Modal-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Editar Afiliado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #formAfiliadoSeleccionado="ngForm" method="POST">
+                        <div class="form-group">
+                            <label for="mNombre">Nombres</label>
+                            <input type="text" class="form-control" id="mNombre" name="mNombre" required minlength="2"
+                                maxlength="30" #mNombre="ngModel"[(ngModel)]="afiliadoSeleccionado.nombres">
+                        </div>
+                        <div class="form-group">
+                            <label for="mApellido">Apellido</label>
+                            <input type="text" class="form-control" id="mApellido" name="mApellido" required
+                                minlength="2" maxlength="30" #mApellido="ngModel" [(ngModel)]="afiliadoSeleccionado.apellido">
+                        </div>
+                        <div class="form-group">
+                            <label for="mDNI">DNI</label>
+                            <input type="number" class="form-control" id="mDNI" name="mDNI" required minlength="3"
+                                maxlength="10" #mDNI="ngModel" [(ngModel)]="afiliadoSeleccionado.dni">
+                        </div>
+                        <div class="form-group">
+                            <label for="mEmail">E-mail</label>
+                            <input type="text" class="form-control" id="mEmail" name="mEmail" required
+                                minlength="2" maxlength="30" #mEmail="ngModel" [(ngModel)]="afiliadoSeleccionado.email">
+                        </div>
+                        <div class="form-group">
+                            <label for="mImagen">Imagen</label>
+                            <input type="text" class="form-control" id="mImagen" name="mImagen" required
+                                minlength="2" maxlength="30" #mImagen="ngModel" [(ngModel)]="afiliadoSeleccionado.imagen">
+                        </div>
+                        <div class="form-group">
+                            <label for="mTelefono">Telefono</label>
+                            <input type="number" class="form-control" id="mTelefono" name="mTelefono" required minlength="3"
+                                maxlength="20" #mTelefono="ngModel" [(ngModel)]="afiliadoSeleccionado.telefono">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Borrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" [disabled]="formAfiliado.invalid" >Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
