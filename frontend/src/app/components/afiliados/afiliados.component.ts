@@ -10,10 +10,12 @@ import { AfiliadoService } from 'src/app/services/afiliado.service';
 export class AfiliadosComponent implements OnInit {
   afiliado: Afiliado;
   afiliadoSeleccionado:Afiliado;
+  afiliadoSelAux:Afiliado;
   afiliados: Array<Afiliado>;
 
   constructor(private _afiliadoService: AfiliadoService) {
     this.afiliado = new Afiliado();
+    this.afiliadoSelAux=new Afiliado();
     this.afiliadoSeleccionado = new Afiliado();
     this.cargarAfiliados();
   }
@@ -21,7 +23,7 @@ export class AfiliadosComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public cargarAfiliados() {
+  public cargarAfiliados():void{
     this.afiliados = new Array<Afiliado>();
     this._afiliadoService.getAfiliados().subscribe(
       (result) => {
@@ -38,7 +40,7 @@ export class AfiliadosComponent implements OnInit {
     )
   }
 
-  public registrarAfiliado() {
+  public registrarAfiliado():void{
     this._afiliadoService.addAfiliado(this.afiliado).subscribe(
       (result) => {
         alert("Afiliado enviado");
@@ -51,7 +53,33 @@ export class AfiliadosComponent implements OnInit {
     this.cargarAfiliados();
   }
 
-  public seleccionarAfiliado(afiliado:Afiliado){
-    this.afiliadoSeleccionado=afiliado;
+  public borrarAfiliadoSeleccionado():void{
+    this._afiliadoService.deleteAfiliado(this.afiliadoSeleccionado).subscribe(
+      (result) => {
+        alert("Afiliado eliminado");
+      },
+      (error) =>{
+        console.log(error);
+      }
+    )
+    this.afiliadoSeleccionado=new Afiliado();
+    this.cargarAfiliados;
+  }
+
+  public modificarAfiliadoSeleccionado():void{
+    this._afiliadoService.updateAfiliado(this.afiliadoSelAux).subscribe(
+      (result) =>{
+        alert("Afiliado modificado");
+      },
+      (error) =>{
+        console.log(error);
+      }      
+    );
+    this.afiliadoSeleccionado= new Afiliado();
+    this.cargarAfiliados;
+  }
+
+  public seleccionarAfiliado(afiliado:Afiliado):void{
+    this.afiliadoSeleccionado=Object.assign(this.afiliadoSeleccionado,afiliado)
   }
 }

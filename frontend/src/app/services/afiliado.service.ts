@@ -45,8 +45,8 @@ export class AfiliadoService {
     return this._http.delete(this.urlBase+afiliado._id,httpOptions);
   }
 
-  updateMensaje(afiliado:Afiliado):Observable<any>{
-    console.log("actualizar mensaje")
+  updateAfiliado(afiliado:Afiliado):Observable<any>{
+    console.log("actualizar afiliado")
     const httpOptions={
       headers:new HttpHeaders({
 
