@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AfiliadoService {
-  urlBase: string = "http://localhost:3000/api/afiliados/"
+  urlBase: string = "http://localhost:3000/api/afiliados/";
 
   constructor(private _http: HttpClient) {
     console.log("consumiendo servicio de Afiliados");
@@ -24,7 +24,7 @@ export class AfiliadoService {
   }
 
   addAfiliado(afiliado:Afiliado):Observable<any>{
-    console.log("registrar afiliado");
+    console.log("registrar afiliado")
     const httpOptions={
       headers:new HttpHeaders({
         "Content-Type":"application/json"
@@ -46,7 +46,7 @@ export class AfiliadoService {
   }
 
   updateAfiliado(afiliado:Afiliado):Observable<any>{
-    console.log("actualizar afiliado");
+    console.log("actualizar afiliado")
     const httpOptions={
       headers:new HttpHeaders({
         "Content-Type":"application/json"
