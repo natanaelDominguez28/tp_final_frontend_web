@@ -1,1 +1,19 @@
-<p>novedades works!</p>
+<div>
+    <form class="card" method="POST" action="" #formNovedad="ngForm">
+        <div class="card-header text-center">
+            <h3 class="h3">Contactarse</h3>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="mensaje" class="col-sm-12 col-md-1  offset-md-4 offset-lg-4">Mensaje:</label>
+                <textarea id="mensaje" class="form-control offset-md-4 offset-lg-4 col-sm-12 col-md-4" rows="6" required 
+                minlength="4" maxlength="300" name="mensaje" #nombres="ngModel" [(ngModel)]="novedad.texto"></textarea>
+            </div>
+            <div class="row form-group justify-content-center">
+                <button type="button" class="btn btn-success " [disabled]="formNovedad.invalid"
+                    (click)="registrarNovedad()">Enviar Mensaje</button>
+            </div>
+        </div>
+        <br>
+    </form>
+</div>

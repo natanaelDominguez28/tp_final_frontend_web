@@ -46,10 +46,10 @@ export class AfiliadoService {
   }
 
   updateAfiliado(afiliado:Afiliado):Observable<any>{
-    console.log("actualizar afiliado")
+    console.log("actualizar afiliado");
     const httpOptions={
       headers:new HttpHeaders({
-
+        "Content-Type":"application/json"
       })
     };
     var body=JSON.stringify(afiliado);

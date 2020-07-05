@@ -10,7 +10,7 @@
                     <a class="nav-link" [routerLink]="['home']">Home</a>
                 </li>
                 <li class="nav-item" *ngIf="_loginService.userLoggedIn">
-                    <a class="nav-link" [routerLink]="['novedades']">Novedades</a>
+                    <a class="nav-link" [routerLink]="['novedades']">Contacto</a>
                 </li>
                 <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrativo'">
                     <a class="nav-link" [routerLink]="['usuarios']">Usuarios</a>

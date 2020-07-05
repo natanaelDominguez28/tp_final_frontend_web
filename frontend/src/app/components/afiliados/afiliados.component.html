@@ -30,12 +30,17 @@
                     maxlength="30" name="imagen" #imagen="ngModel" [(ngModel)]="afiliado.imagen" />
             </div>
             <div class="row form-group">
+                <label for="imagens" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Imagen</label>
+                <input id="imagens" class="col-sm-12 col-md-2" type="file" required accept=".png, .jpg"
+                name="imagens"  (change)="onUpload($event)" />
+            </div>
+            <div class="row form-group">
                 <label for="telefono" class="col-sm-12 col-md-1 offset-md-4">Telefono</label>
                 <input id="telefono" class="form-control col-sm-12 col-md-2" type="number" required minlength="3"
                     maxlength="9" name="telefono" #telefono="ngModel" [(ngModel)]="afiliado.telefono" />
             </div>
             <div class="row form-group justify-content-center">
-                <button type="button" class="btn btn-secondary " [disabled]="formAfiliado.invalid"
+                <button type="button" class="btn btn-success " [disabled]="formAfiliado.invalid"
                     (click)="registrarAfiliado()">Registrar</button>
             </div>
         </div>
