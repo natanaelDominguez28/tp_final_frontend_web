@@ -1,19 +1,103 @@
-<div>
-    <form class="card" method="POST" action="" #formNovedad="ngForm">
+<div *ngIf="_loginService.userLoggedIn==true">
+    <form class="card" method="POST" #formNovedad="ngForm" *ngIf="_loginService.userLogged.perfil=='comun'">
         <div class="card-header text-center">
             <h3 class="h3">Contactarse</h3>
         </div>
         <div class="card-body">
             <div class="form-group">
-                <label for="mensaje" class="col-sm-12 col-md-1  offset-md-4 offset-lg-4">Mensaje:</label>
-                <textarea id="mensaje" class="form-control offset-md-4 offset-lg-4 col-sm-12 col-md-4" rows="6" required 
-                minlength="4" maxlength="300" name="mensaje" #nombres="ngModel" [(ngModel)]="novedad.texto"></textarea>
+                <textarea id="mensaje" class="form-control offset-md-4 offset-lg-4 col-sm-12 col-md-4" rows="6" required
+                    minlength="4" maxlength="500" name="mensaje" #nombres="ngModel"
+                    [(ngModel)]="novedad.texto"></textarea>
             </div>
             <div class="row form-group justify-content-center">
                 <button type="button" class="btn btn-success " [disabled]="formNovedad.invalid"
                     (click)="registrarNovedad()">Enviar Mensaje</button>
             </div>
+            <div class="alert-success offset-lg-4 col-lg-4 " style="margin-top: 10px;">{{msgNovedad}}</div>
         </div>
         <br>
     </form>
+    <div *ngIf="_loginService.userLogged.perfil=='administrador' || _loginService.userLogged.perfil=='administrativo'">
+        <br>
+        <div class="text-center card-header bg-dark">
+            <h4 class="text-light">Gestionar Novedades</h4>
+        </div>
+
+        <table class="table table-striped col-sm-12" [mfData]="novedades" #mf="mfDataTable" [mfRowsOnPage]="5">
+
+            <thead class="thead-dark">
+                <tr>
+                    <th style="width:15%;" scope="col">
+                        <mfDefaultSorter by="usuario.usuario">Usuario</mfDefaultSorter>
+                    </th>
+                    <th style="width:55%;" class="text-center" scope="col">
+                        <mfDefaultSorter by="texto">Texto</mfDefaultSorter>
+                    </th>
+                    <th style="width:15%;" scope="col">
+                        <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                    </th>
+                    <th style="width:15%;" scope="col">
+                        Seleccionar
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of mf.data">
+                    <th scope="row">{{i.usuario.usuario| slice:0:15}}</th>
+                    <td>{{i.texto | slice:0:80}}</td>
+                    <td [ngClass]="i.estado=='pendiente' ? 'pendiente':'procesada'">{{i.estado}}</td>
+                    <td>
+                        <div class="row form-group justify-content-center">
+                            <button type="button" class="btn btn-primary " (click)="seleccionarNovedad(i)"
+                                data-toggle="modal" data-target="#exampleModalCenter">Seleccionar</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <mfBootstrapPaginator [rowsOnPageSet]='[5,10,15]'></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content card">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-light text-center" id="exampleModalLongTitle">
+                        <span> Novedad de {{novedadSeleccionada.usuario.usuario}}</span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body card-body">
+                    <div class="">
+                        <label class="h6">E:mail:</label>
+                        <p> {{novedadSeleccionada.usuario.usuario}}</p>
+                    </div>
+                    <div class="">
+                        <label class="h6">Mensaje: </label>
+                        <p class="text-monospace">{{novedadSeleccionada.texto}}</p>
+                    </div>
+                    <div class="">
+                        <label class="h6" for="mEstado">Estado: </label>
+                        <select id="mEstado" class="form-control" required name="mEstado"
+                            [(ngModel)]="novedadSeleccionada.estado" (change)="desactivarGuardar=false">
+                            <option *ngFor="let est of estados" [ngValue]="est">{{est}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="desactivarGuardar"
+                        (click)="modificarNovedadSeleccionada()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

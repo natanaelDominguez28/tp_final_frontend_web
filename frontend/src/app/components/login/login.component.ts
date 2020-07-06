@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
           if (user.status == 1) {
             //vbles para mostrar-ocultar cosas en el header
             this._loginService.userLoggedIn = true;
-            this._loginService.userLogged = user;
+            this._loginService.userLogged = user.usuarioCompleto;
             //redirigimos a home o a pagina que llamo
             this._router.navigateByUrl(this.returnUrl);
           } else {
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
           console.log("error en conexion");
           console.log(error);
         });
+        console.log("usuario logeado"+this._loginService.userLogged);
   }
 
 }
