@@ -1,12 +1,12 @@
 <div *ngIf="_loginService.userLoggedIn==true">
-    <form class="card" method="POST" #formNovedad="ngForm" *ngIf="_loginService.userLogged.perfil=='comun'">
+    <form class="card" method="POST" #formNovedad="ngForm" *ngIf="_loginService.userLogged.perfil=='socio'">
         <div class="card-header text-center">
             <h3 class="h3">Contactarse</h3>
         </div>
         <div class="card-body">
             <div class="form-group">
                 <textarea id="mensaje" class="form-control offset-md-4 offset-lg-4 col-sm-12 col-md-4" rows="6" required
-                    minlength="4" maxlength="500" name="mensaje" #nombres="ngModel"
+                    minlength="4" maxlength="500" name="mensaje" #nombres="ngModel" placeholder="Escribe tu mensaje..."
                     [(ngModel)]="novedad.texto"></textarea>
             </div>
             <div class="row form-group justify-content-center">
@@ -18,14 +18,13 @@
         <br>
     </form>
     <div *ngIf="_loginService.userLogged.perfil=='administrador' || _loginService.userLogged.perfil=='administrativo'">
-        <br>
-        <div class="text-center card-header bg-dark">
-            <h4 class="text-light">Gestionar Novedades</h4>
+        <div class="card-header text-center text-center">
+            <h3>Gestionar Novedades</h3>
         </div>
 
         <table class="table table-striped col-sm-12" [mfData]="novedades" #mf="mfDataTable" [mfRowsOnPage]="5">
 
-            <thead class="thead-dark">
+            <thead class="thead-light">
                 <tr>
                     <th style="width:15%;" scope="col">
                         <mfDefaultSorter by="usuario.usuario">Usuario</mfDefaultSorter>

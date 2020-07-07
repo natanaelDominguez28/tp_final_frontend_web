@@ -26,6 +26,9 @@ export class LoginComponent implements OnInit {
           var user = result;
           console.log(user);
           if (user.status == 1) {
+            //el token se guarda localmente
+            sessionStorage.setItem("token", user.token);
+
             //vbles para mostrar-ocultar cosas en el header
             this._loginService.userLoggedIn = true;
             this._loginService.userLogged = user.usuarioCompleto;
@@ -33,14 +36,14 @@ export class LoginComponent implements OnInit {
             this._router.navigateByUrl(this.returnUrl);
           } else {
             //usuario no encontrado muestro mensaje en la vista
-            this.msglogin = "Usuario o contraseña incorrectos";
+            this.msglogin = "Usuario y/o contraseña incorrecta";
           }
         },
         error => {
           console.log("error en conexion");
           console.log(error);
         });
-        console.log("usuario logeado"+this._loginService.userLogged);
+    console.log("usuario logeado" + this._loginService.userLogged);
   }
 
 }

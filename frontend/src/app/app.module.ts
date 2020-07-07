@@ -2,11 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { NgxDataTableModule } from 'angular-9-datatable';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 //servicios
 import { LoginService } from './services/login.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AfiliadoService } from './services/afiliado.service';
+import { NoticiaService } from './services/noticia.service';
+import { NovedadService } from './services/novedad.service';
+import { PagoService } from './services/pago.service';
+import { UsuarioService } from './services/usuario.service';
 
 
 
@@ -49,7 +54,16 @@ import { NoticiasComponent } from './components/noticias/noticias.component';
   //servicio
   providers: [
     LoginService,
-    AfiliadoService
+    AfiliadoService,
+    NoticiaService,
+    NovedadService,
+    PagoService,
+    UsuarioService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass:TokenInterceptorService,
+      multi:true
+    }
   ],
   bootstrap: [AppComponent]
 })

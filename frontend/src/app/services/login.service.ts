@@ -10,10 +10,10 @@ export class LoginService {
   urlBase: string = "http://localhost:3000/api/usuarios/login";
   userLoggedIn: boolean = false;
   userLogged: Usuario;
-  
+
   constructor(private _http: HttpClient) {
     this.userLogged = new Usuario();
-   }
+  }
 
   public login(usuario: string, password: string): Observable<any> {
     const httpOption = {
@@ -28,6 +28,13 @@ export class LoginService {
   public logout() {
     this.userLogged = new Usuario();
     this.userLoggedIn = false;
+    //se elimina el token de sessionStorage
+    sessionStorage.removeItem("token");
+
+  }
+
+  getToken(): string {
+    return sessionStorage.getItem("token");
   }
 
 }

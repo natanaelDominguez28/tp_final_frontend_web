@@ -1,1 +1,127 @@
-<p>usuarios works!</p>
+<div class="container" *ngIf="_loginService.userLogged.perfil=='administrador'">
+    <form class="card" method="POST" #formUsuario="ngForm">
+        <div class="card-header text-center">
+            <h3 class="h3">Gestion de Usuarios</h3>
+        </div>
+        <div class="card-body">
+            <div class="row form-group">
+                <label for="usuario" class="col-sm-12 col-md-1  offset-md-4 offset-lg-4">Usuario: </label>
+                <input id="usuario" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
+                    maxlength="30" name="usuario" #usuario="ngModel" [(ngModel)]="usuarioa.usuario" />
+            </div>
+            <div class="row form-group">
+                <label for="pasword" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Contraseña: </label>
+                <input id="pasword" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
+                    maxlength="30" name="pasword" #pasword="ngModel" [(ngModel)]="usuarioa.password" />
+            </div>
+            <div class="row form-group">
+                <label for="perfil" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4" for="mEstado">Perfil: </label>
+                <select id="perfil" class="form-control col-sm-12 col-md-2" name="perfil" #perfil="ngModel" required
+                    [(ngModel)]="usuarioa.perfil">
+                    <option *ngFor="let perfil of perfiles" [ngValue]="perfil">{{perfil}}</option>
+                </select>
+            </div>
+            <div class="row form-group">
+                <label for="activo" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Activo:</label>
+                <input type="checkbox"  id="activo" name="activo" required [checked]="usuarioa.activo"
+                    (change)="cambiarActivo($event)">
+            </div>
+            <div class="row form-group justify-content-center">
+                <button type="button" class="btn btn-success " [disabled]="formUsuario.invalid"
+                    (click)="registrarUsuario()">Registrar</button>
+            </div>
+        </div>
+        <br>
+
+        <div>
+            <!--Tabla-->
+            <table class="table table-striped col-sm-12" [mfData]="usuarios" #mf="mfDataTable" [mfRowsOnPage]="5">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">
+                            <mfDefaultSorter by="usuario">Usuario</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            <mfDefaultSorter class="justify-content-center" by="activo">Activo</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            <mfDefaultSorter class="text-center" by="perfil">Perfil</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            Seleccionar
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of mf.data">
+                        <th scope="row" [ngClass]="i.activo ? 'activo':'inactivo'">
+                            {{i.usuario}}
+                        </th>
+                        <td>
+                            <input type="checkbox" [checked]="i.activo" disabled>
+                        </td>
+                        <td>{{i.perfil}}</td>
+                        <td>
+                            <div class="row form-group">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" 
+                                data-target="#exampleModalCenter" (click)="seleccionarUsuario(i)">Seleccionar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <mfBootstrapPaginator [rowsOnPageSet]='[5,10,15]'></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+    <!--Modal-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content card">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-light text-center" id="exampleModalLongTitle">
+                        <span> Modificar Usuario</span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body card-body">
+                    <div class="form-group">
+                        <label class="h6" for="mUsuario">Usuario: </label>
+                        <input type="text" class="form-control" id="mUsuario" name="mUsuario" required minlength="2"
+                            maxlength="30" #mUsuario="ngModel"[(ngModel)]="usuarioSeleccionado.usuario">
+                    </div>
+                    <div class="form-group">
+                        <label class="h6" for="mPassword">Contraseña: </label>
+                        <input type="text" class="form-control" id="mPassword" name="mPassword" required minlength="2"
+                            maxlength="30" #mPassword="ngModel"[(ngModel)]="usuarioSeleccionado.password">
+                    </div>
+                    <div class="form-group">
+                        <label class="h6" for="mEstado">Perfil: </label>
+                        <select id="mEstado" class="form-control" required name="mEstado"
+                            [(ngModel)]="usuarioSeleccionado.perfil" (change)="desactivarGuardar=false">
+                            <option *ngFor="let perfil of perfiles" [ngValue]="perfil">{{perfil}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="h6" for="mPerfil">Activo: </label>
+                        <input class="" type="checkbox" id="mPerfil" name="mPerfil" required [checked]="usuarioSeleccionado.activo"
+                    (change)="cambiarActivo2($event)">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="desactivarGuardar"
+                        (click)="modificarUsuarioSeleccionado()">Modificar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
