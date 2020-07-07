@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ServicioService } from '../../services/servicio.service';
+import { Servicio } from '../../models/servicio'
+  import { from } from 'rxjs';
 
 @Component({
   selector: 'app-servicios',
@@ -6,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./servicios.component.css']
 })
 export class ServiciosComponent implements OnInit {
+  servicio: Servicio;
 
-  constructor() { }
+  constructor(private _servicioService:ServicioService) { }
 
   ngOnInit(): void {
   }
