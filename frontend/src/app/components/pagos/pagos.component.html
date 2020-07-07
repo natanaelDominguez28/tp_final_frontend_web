@@ -1,1 +1,153 @@
-<p>pagos works!</p>
+<div class="container">
+    <form class="card" method="POST" #formPago="ngForm">
+        <div class="card-header text-center">
+            <h3 class="h3">Gestion de Pagos</h3>
+        </div>
+        <div class="card-body">
+            <div class="row form-group">
+                <label for="afiliado" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Afiliado: </label>
+                <select id="afiliado" class="form-control col-sm-12 col-md-2" name="afiliado" #afiliado="ngModel"
+                    required [(ngModel)]="pago.afiliado">
+                    <option *ngFor="let afiliado of afiliados" [ngValue]="afiliado">{{afiliado.dni}} -
+                        {{afiliado.apellido}} {{afiliado.nombres}}</option>
+                </select>
+            </div>
+            <div class="row form-group">
+                <label for="monto" class="col-sm-12 col-md-1  offset-md-4 offset-lg-4">Monto: </label>
+                <input id="monto" class="form-control col-sm-12 col-md-2" type="number" required name="monto" min="1"
+                    max="100000" #monto="ngModel" [(ngModel)]="pago.monto" />
+            </div>
+            <div class="row form-group">
+                <label for="year" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Año: </label>
+                <input id="year" class="form-control col-sm-12 col-md-2" type="number" required min="2000" max="2020"
+                    name="year" #year="ngModel" [(ngModel)]="pago.year" />
+            </div>
+            <div class="row form-group">
+                <label for="mes" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Mes: </label>
+                <select id="mes" class="form-control col-sm-12 col-md-2" name="mes" #mes="ngModel" required
+                    [(ngModel)]="pago.mes">
+                    <option *ngFor="let m of month" [ngValue]="m">{{m}}</option>
+                </select>
+            </div>
+
+            <div class="row form-group justify-content-center">
+                <button type="button" class="btn btn-success " [disabled]="formPago.invalid"
+                    (click)="registrarPago()">Registrar</button>
+            </div>
+        </div>
+        <br>
+
+        <div>
+            <!--Tabla-->
+            <table class="table table-striped col-sm-12" [mfData]="pagos" #mf="mfDataTable" [mfRowsOnPage]="5">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">
+                            <mfDefaultSorter by="afiliado">Afiliado</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            <mfDefaultSorter class="text-center" by="fecha">Fecha</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            <mfDefaultSorter class="text-center" by="monto">Monto</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            <mfDefaultSorter class="text-center" by="mes">Mes</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            <mfDefaultSorter class="text-center" by="year">Año</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            Seleccionar
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of mf.data">
+                        <th scope="row">
+                            {{i.afiliado.apellido}} {{i.afiliado.nombres}}
+                        </th>
+                        <td>
+                            {{i.fecha | date}}
+                        </td>
+                        <td>
+                            {{i.monto | currency}}
+                        </td>
+                        <td>
+                            {{i.year}}
+                        </td>
+                        <td>
+                            {{i.mes}}
+                        </td>
+                        <td>
+                            <div class="row form-group">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModalCenter" (click)="seleccionarPago(i)">Seleccionar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <mfBootstrapPaginator [rowsOnPageSet]='[5,10,15]'></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+    <!--Modal-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content card">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-light text-center" id="exampleModalLongTitle">
+                        <span> Modificar Pago de {{pagoSeleccionado.afiliado}}</span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body card-body">
+                    <div class="form-group">
+                        <label class="h6" for="mAfiliado">Afiliado: </label>
+                        <select id="mAfiliado" class="form-control" required name="mAfiliado"
+                            [(ngModel)]="pagoSeleccionado.afiliado" (change)="desactivarGuardar=false">
+                            <option *ngFor="let afiliado of afiliados" [ngValue]="afiliado">{{afiliado.dni}} -
+                                {{afiliado.apellido}} {{afiliado.nombres}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="h6" for="mMonto">Monto: </label>
+                        <input type="number" class="form-control" id="mMonto" name="mMonto" required min="1"
+                            max="100000" #mMonto="ngModel" [(ngModel)]="pagoSeleccionado.monto">
+                    </div>
+                    <div class="form-group">
+                        <label class="h6" for="mYear">año: </label>
+                        <input type="number" class="form-control" id="mYear" name="mYear" required min="2000" max="2020"
+                            #mYear="ngModel" [(ngModel)]="pagoSeleccionado.year">
+                    </div>
+                    <div class="form-group">
+                        <label class="h6" for="mMes">mes: </label>
+                        <select id="mMes" class="form-control" required name="mMes"
+                            [(ngModel)]="pagoSeleccionado.mes" (change)="desactivarGuardar=false">
+                            <option *ngFor="let m of month" [ngValue]="m">{{m}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="h6">Fecha de pago: {{pagoSeleccionado.fecha | date}}</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        (click)="borrarPagoSeleccionado()">Eliminar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="desactivarGuardar"
+                        (click)="modificarPagoSeleccionado()">Modificar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
