@@ -1,28 +1,28 @@
-<div class="container" *ngIf="_loginService.userLogged.perfil=='administrador'">
+<div *ngIf="_loginService.userLogged.perfil=='administrador'">
     <form class="card" method="POST" #formUsuario="ngForm">
         <div class="card-header text-center">
             <h3 class="h3">Gestion de Usuarios</h3>
         </div>
         <div class="card-body">
             <div class="row form-group">
-                <label for="usuario" class="col-sm-12 col-md-1  offset-md-4 offset-lg-4">Usuario: </label>
+                <label for="usuario" class="col-sm-12 col-md-1  offset-md-4 offset-lg-4">Usuario</label>
                 <input id="usuario" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
                     maxlength="30" name="usuario" #usuario="ngModel" [(ngModel)]="usuarioa.usuario" />
             </div>
             <div class="row form-group">
-                <label for="pasword" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Contraseña: </label>
+                <label for="pasword" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Contraseña</label>
                 <input id="pasword" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
                     maxlength="30" name="pasword" #pasword="ngModel" [(ngModel)]="usuarioa.password" />
             </div>
             <div class="row form-group">
-                <label for="perfil" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4" for="mEstado">Perfil: </label>
+                <label for="perfil" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4" for="mEstado">Perfil</label>
                 <select id="perfil" class="form-control col-sm-12 col-md-2" name="perfil" #perfil="ngModel" required
                     [(ngModel)]="usuarioa.perfil">
                     <option *ngFor="let perfil of perfiles" [ngValue]="perfil">{{perfil}}</option>
                 </select>
             </div>
             <div class="row form-group">
-                <label for="activo" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Activo:</label>
+                <label for="activo" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Activo</label>
                 <input type="checkbox"  id="activo" name="activo" required [checked]="usuarioa.activo"
                     (change)="cambiarActivo($event)">
             </div>

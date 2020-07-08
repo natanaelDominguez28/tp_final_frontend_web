@@ -1,1 +1,149 @@
-<p>servicios works!</p>
+<div>
+    <form class="card" method="POST" #formServicio="ngForm">
+        <div class="card-header text-center">
+            <h3 class="h3">Gestion de Servicios</h3>
+        </div>
+        <div class="card-body">
+            <div class="row form-group">
+                <label for="nombre" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Nombre: </label>
+                <input id="nombre" class="form-control col-sm-12 col-md-3" type="text" required minlength="2"
+                    maxlength="80" name="nombre" #nombre="ngModel" [(ngModel)]="servicio.nombre" />
+            </div>
+            <div class="row form-group">
+                <label for="imagen" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Imagen: </label>
+                <input id="imagen" class="form-control col-sm-12 col-md-3" type="text" required minlength="2"
+                    maxlength="80" name="imagen" #imagen="ngModel" [(ngModel)]="servicio.imagen" />
+            </div>
+            <div class="row form-group">
+                <label for="vigente" class="col-md-1 offset-md-4 offset-lg-4">Activo:</label>
+                <input type="checkbox" id="vigente" name="vigente" required [checked]="servicio.activo"
+                    (change)="cambiarActivo($event)">
+            </div>
+            <div class="row form-group justify-content-center">
+                <button type="button" class="btn btn-success " [disabled]="formServicio.invalid"
+                    (click)="registrarServicio()">Registrar</button>
+            </div>
+        </div>
+        <br>
+
+        <div>
+            <!--Tabla-->
+            <table class="table table-striped col-sm-12" [mfData]="servicios" #mf="mfDataTable" [mfRowsOnPage]="5">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">
+                            <mfDefaultSorter by="nombre">Nombre</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            <mfDefaultSorter class="justify-content-center" by="imagen">imagen
+                            </mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            <mfDefaultSorter class="text-center" by="activo">Activo</mfDefaultSorter>
+                        </th>
+                        <th scope="col">
+                            Seleccionar
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of mf.data">
+                        <td scope="row" [ngClass]="i.activo ? 'activo':'inactivo'">
+                            {{i.nombre | slice:0:50}}
+                        </td>
+                        <td>
+                            {{i.imagen}}
+                        </td>
+                        <td>
+                            <input type="checkbox" [checked]="i.activo" disabled>
+                        </td>
+                        <td>
+                            <div class="row form-group">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModalCenter"
+                                    (click)="seleccionarServicio(i)">Seleccionar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <mfBootstrapPaginator [rowsOnPageSet]='[5,10,15]'></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+    <!--Modal-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content card">
+                <div class="modal-header bg-dark">
+                    <h5 class="modal-title text-light text-center" id="exampleModalLongTitle">
+                        <span> Modificar Servicio</span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body card-body">
+                    <div class="form-group">
+                        <label class="h6" for="mNombre">Nombre: </label>
+                        <input type="text" class="form-control" id="mNombre" name="mNombre" required minlength="2"
+                            maxlength="80" #mImagen="ngModel" [(ngModel)]="servicioSeleccionado.nombre"
+                            (click)="desactivarGuardar=false">
+                    </div>
+                    <div class="form-group">
+                        <label class="h6" for="mImagen">Imagen: </label>
+                        <input type="text" class="form-control" id="mImagen" name="mImagen" required minlength="2"
+                            maxlength="80" #mImagen="ngModel" [(ngModel)]="servicioSeleccionado.imagen"
+                            (click)="desactivarGuardar=false">
+                    </div>
+                    <div class="form-group">
+                        <label class="h6" for="mActivo">Vigente : </label>
+                        <label style="color: transparent;">--</label>
+                        <input class="" type="checkbox" id="mActivo" name="mActivo" required
+                            [checked]="servicioSeleccionado.activo" (change)="cambiarActivo2($event)">
+                    </div>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <select id="mAfiliado" class="form-control col-sm-12" name="mAfiliado"
+                                        #mAfiliado="ngModel" required [(ngModel)]="afiliado" (change)="desactivarAgregar=false;">
+                                        <option *ngFor="let afiliado of afiliados" [ngValue]="afiliado">
+                                            {{afiliado.apellido}} {{afiliado.nombres}} - {{afiliado.dni}}</option>
+                                    </select>
+                                </th>
+                                <th scope="col">
+                                    <button class="btn btn-primary" (click)=agregarAfiliado() [disabled]="desactivarAgregar">Agregar</button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let afi of servicioSeleccionado.afiliadosInsc">
+                                <td>
+                                    {{afi.apellido}} {{afi.nombres}} - {{afi.dni}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" (click)="borrarAfiliado(afi)">Borrar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        (click)="borrarServicioSeleccionado()">Eliminar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        (click)="cargarServicios()">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="desactivarGuardar"
+                        (click)="modificarServicioSeleccionado()">Modificar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

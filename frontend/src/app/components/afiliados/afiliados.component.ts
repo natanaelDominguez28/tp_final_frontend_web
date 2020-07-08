@@ -12,6 +12,7 @@ export class AfiliadosComponent implements OnInit {
   afiliadoSeleccionado: Afiliado;
   afiliadoSelAux: Afiliado;
   afiliados: Array<Afiliado>;
+  imagenConvertida:string
 
   constructor(private _afiliadoService: AfiliadoService) {
     this.afiliado = new Afiliado();
@@ -79,11 +80,20 @@ export class AfiliadosComponent implements OnInit {
     this.cargarAfiliados();
   }
 
-  public seleccionarAfiliado(afiliado: Afiliado): void {
-    this.afiliadoSeleccionado = Object.assign({}, afiliado);
+  public subirImagen(files): void {
+    console.log("ARCHIVO CONVERTIDO", files);
+    this.afiliado.imagen=files[0].base64;
   }
 
-  public onUpload(e): void {
-    console.log("subiendo ", e.target.files[0]);
+  public subirImagen2(files): void {
+    console.log("ARCHIVO CONVERTIDO", files);
+    this.afiliadoSeleccionado.imagen=files[0].base64;
   }
+  public seleccionarAfiliado(afiliado: Afiliado): void {
+      this.afiliadoSeleccionado = Object.assign({}, afiliado);
+    }
+
+  public onUpload(e): void {
+      console.log("subiendo ", e.target.files[0]);
+    }
 }

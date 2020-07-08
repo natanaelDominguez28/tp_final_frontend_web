@@ -1,13 +1,13 @@
 <div class="h-100">
     <div class="container h-100">
         <div class="row justify-content-center h-100">
-            <div class="col-sm-4 align-self-center text-center">
-                <form class="form-signin ">
-                    <img class="mb-4" src="" width="72" height="72">
+            <div class="col-sm-3 align-self-center text-center">
+                <form class="form-signin" style="margin-top: 15% ;">
+                    <img class="mb-4" src="/assets/img/logo.png" width="90" height="72">
                     <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesion</h1>
-                    <label for="inputEmail" class="sr-only">Usuario</label>
-                    <input type="text" id="inputEmail" name="usuario" class="form-control" placeholder="Usuario"
-                        required autofocus [(ngModel)]="userform.usuario">
+                    <label for="inputEmail" class="sr-only" q>Usuario</label>
+                    <input type="text" id="inputEmail" name="usuario" class="form-control" style="margin-bottom: 10px;"
+                     placeholder="Usuario" required autofocus [(ngModel)]="userform.usuario">
                     <label for="inputPassword" class="sr-only">Contraseña</label>
                     <input type="password" id="inputPassword" name="password" class="form-control "
                         placeholder="Contraseña" required [(ngModel)]="userform.password">
@@ -16,7 +16,7 @@
                             <input type="checkbox" value="remember-me"> Recuerdame
                         </label>
                     </div>
-                    <button class="btn btn-lg btn-outline-success" type="submit" (click)="login()">Sign in</button>
+                    <button class="btn btn-lg btn-success" type="submit" (click)="login()">Sign in</button>
                     <div class="alert-danger" style="margin-top: 10px;">{{msglogin}}</div>
                 </form>
             </div>

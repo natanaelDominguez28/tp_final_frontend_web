@@ -14,6 +14,7 @@ export class NoticiasComponent implements OnInit {
   noticiaSeleccionada: Noticia;
   noticias: Array<Noticia>;
   desactivarGuardar = true;
+  publicarEnFacebook=false;
 
   constructor(private _noticiaService: NoticiaService, public _loginService: LoginService) {
     this.cleanNoticia();
@@ -34,6 +35,9 @@ export class NoticiasComponent implements OnInit {
         console.log(error);
       }
     );
+    if(this.publicarEnFacebook==true){
+      this._noticiaService.publicarEnfb(this.noticia);
+    }
     this.cleanNoticia();
   }
 
@@ -92,6 +96,7 @@ export class NoticiasComponent implements OnInit {
     this.noticia = new Noticia();
     this.noticia.usuario = new Usuario();
     this.noticia.vigente = true;
+    this.publicarEnFacebook=false;
   }
 
   public cleanNoticiaSeleccionada(): void {
@@ -112,6 +117,15 @@ export class NoticiasComponent implements OnInit {
   public cambiarActivo2(e): void {
     if (e.target.checked == true) {
       this.noticiaSeleccionada.vigente = true;
+    } else {
+      this.noticiaSeleccionada.vigente = false;
+    }
+    this.desactivarGuardar = false;
+  }
+
+  public cambiarFacebook(e): void {
+    if (e.target.checked == true) {
+      this.publicarEnFacebook = true;
     } else {
       this.noticiaSeleccionada.vigente = false;
     }

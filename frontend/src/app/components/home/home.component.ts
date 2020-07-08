@@ -25,7 +25,9 @@ export class HomeComponent implements OnInit {
         var noticia: Noticia = new Noticia();
         result.forEach(element => {
           Object.assign(noticia, element);
-          this.noticias.push(noticia);
+          if(noticia.vigente){
+            this.noticias.push(noticia);
+          }
           noticia = new Noticia();
         });
       },
@@ -34,5 +36,4 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
 }

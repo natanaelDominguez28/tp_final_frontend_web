@@ -1,11 +1,11 @@
-<header class="container bg-dark col-md-12">
-    <nav class="navbar navbar-expand-lg navbar-dark badge-dark">
+<header class="bg-dark col-md-12">
+    <nav class="navbar navbar-expand-lg navbar-dark badge-dark ">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#opciones">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <span class="text-white-50">Obra Social</span>
+        <a class="nav-link" [routerLink]="['home']"><img src="/assets/img/logo_edit.png" alt="logo" class="logo" width="210" height="40"></a>
         <div class="collapse navbar-collapse justify-content-end" id="opciones">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav menu_links">
                 <li class="nav-item">
                     <a class="nav-link" [routerLink]="['home']">Home</a>
                 </li>

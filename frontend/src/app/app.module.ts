@@ -1,8 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { NgxDataTableModule } from 'angular-9-datatable';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FacebookModule } from 'ngx-fb';
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+
 
 //servicios
 import { LoginService } from './services/login.service';
@@ -12,8 +15,8 @@ import { NoticiaService } from './services/noticia.service';
 import { NovedadService } from './services/novedad.service';
 import { PagoService } from './services/pago.service';
 import { UsuarioService } from './services/usuario.service';
-
-
+import { ImpresoraService } from './services/impresora.service';
+import { ServicioService } from './services/servicio.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,7 +50,9 @@ import { NoticiasComponent } from './components/noticias/noticias.component';
     AppRoutingModule,
     HttpClientModule,
     NgxDataTableModule,
-    FormsModule
+    FormsModule,
+    FacebookModule.forRoot(),
+    AlifeFileToBase64Module
 
   ],
 
@@ -58,11 +63,13 @@ import { NoticiasComponent } from './components/noticias/noticias.component';
     NoticiaService,
     NovedadService,
     PagoService,
+    ImpresoraService,
+    ServicioService,
     UsuarioService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass:TokenInterceptorService,
-      multi:true
+      useClass: TokenInterceptorService,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

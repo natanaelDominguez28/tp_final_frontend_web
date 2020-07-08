@@ -1,0 +1,7 @@
+.inactivo{
+    color: darkred;
+    font-weight:bold;
+}
+.activo{
+    color: black;
+}
