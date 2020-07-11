@@ -48,7 +48,7 @@ export class AfiliadosComponent implements OnInit {
   public imprimir(): void {
     printJS({
       printable: this.afiliadosJSON,
-      properties: ['dni', 'apellido', 'nombre', "email", "telefono"],
+      properties: ['dni', 'apellido', 'nombres', "email", "telefono"],
       type: 'json',
       header: '<h3 class="h3">Lista de Afiliados</h3>',
       gridHeaderStyle: 'color: red;  border: 2px solid #3971A5;',

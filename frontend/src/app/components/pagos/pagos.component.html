@@ -1,4 +1,4 @@
-<div *ngIf="_loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='gerente'">
+<div *ngIf="_loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='administrador' || _loginService.userLogged.perfil=='gerente'">
     <form class="card" method="POST" #formPago="ngForm">
         <div class="card-header text-center">
             <h3 class="h3">Gestion de Pagos</h3>

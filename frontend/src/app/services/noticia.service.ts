@@ -11,7 +11,7 @@ import { ApiMethod } from 'ngx-fb/dist/esm/providers/facebook';
 })
 export class NoticiaService {
   urlBase: string = "http://localhost:3000/api/noticias/";
-  access_token: string = "EAAC2C8riQeIBADzPjjs8qhhDZBetWuuDBgfsWovZBEvpdpEk5Xvdq8gZBsvpRCkDMKRs10j5UtaOt77KFL09NP6grkMDtrtSh9P2oSMydzqUdSK531LBqLHQIZBCi6TcTXZBDHT3wfjj4jLApMtwki6ALnv4t0EoS6M5hRcMOWnwcZBENyug0mX0KhuyeXzmwZD";
+  access_token: string = "EAAC2C8riQeIBANDHeLRybxYGLig5rp9N3CAVQCGOQKyfSaW1i2hv43eSo4pxeB3gmk7CxAeZCroZB3LPS3YecRhOXpdAiQSIFZB5gF3ZBrgPMLSfOlVqDVZATqReMpM2doH6H5CEl7IqolRpRSiXeC2ZBdUZCgrU9MVrBhekQPzXtVOJZBpmCM7HFMZAbg4ZBa4MorWvG7ZBkDPqwZDZD";
   idPage: string = "112141137231658";
   constructor(private fb: FacebookService, private _http: HttpClient,) {
     console.log("consumiendo servicio de Noticiass");

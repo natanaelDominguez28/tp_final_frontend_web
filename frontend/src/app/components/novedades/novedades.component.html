@@ -1,4 +1,4 @@
-<div *ngIf="_loginService.userLoggedIn==true">
+<div>
     <form class="card" method="POST" #formNovedad="ngForm" *ngIf="_loginService.userLogged.perfil=='socio'">
         <div class="card-header text-center">
             <h3 class="h3">Contactarse</h3>
@@ -17,7 +17,7 @@
         </div>
         <br>
     </form>
-    <div class="card" *ngIf="_loginService.userLogged.perfil=='gerente' || _loginService.userLogged.perfil=='administrativo'">
+    <div class="card" *ngIf="_loginService.userLogged.perfil=='gerente' || _loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='administrador'">
         <div class="card-header text-center text-center">
             <h3>Gestionar Novedades</h3>
         </div>
