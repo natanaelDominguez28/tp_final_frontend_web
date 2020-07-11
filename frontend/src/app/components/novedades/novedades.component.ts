@@ -3,6 +3,8 @@ import { Novedad } from '../../models/novedad';
 import { NovedadService } from '../../services/novedad.service'
 import { LoginService } from 'src/app/services/login.service';
 import { Usuario } from 'src/app/models/usuario';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-novedades',
   templateUrl: './novedades.component.html',
@@ -16,7 +18,7 @@ export class NovedadesComponent implements OnInit {
   desactivarGuardar:boolean;
   msgNovedad="";
 
-  constructor(private _novedadService: NovedadService, public _loginService: LoginService) { 
+  constructor(private _novedadService: NovedadService, public _loginService: LoginService, private _toast: ToastrService) { 
     this.novedad= new Novedad();
     this.novedades= new Array<Novedad>();
     this.novedadSeleccionada= new Novedad();
@@ -31,10 +33,10 @@ export class NovedadesComponent implements OnInit {
     this.novedad.usuario=this._loginService.userLogged;
     this._novedadService.addNovedad(this.novedad).subscribe(
       (result) => {
-        alert("Novedad registrada");
+        this._toast.success("Novedad registrada","Exito");
       },
       (error) => {
-        console.log(error);
+        this._toast.success(error,"Exito");
       }
     );
     this.novedad = new Novedad();
@@ -44,7 +46,7 @@ export class NovedadesComponent implements OnInit {
   public borrarNovedadSeleccionada(): void {
     this._novedadService.deleteNovedad(this.novedadSeleccionada).subscribe(
       (result) => {
-        alert("Novedad eliminada");
+        this._toast.info("Novedad eliminada","Exito");
       },
       (error) => {
         console.log(error);
@@ -57,7 +59,7 @@ export class NovedadesComponent implements OnInit {
   public modificarNovedadSeleccionada(): void {
     this._novedadService.updateNovedad(this.novedadSeleccionada).subscribe(
       (result) => {
-        alert("Novedad modificada");
+        this._toast.info("Novedad Modificada","Exito");
       },
       (error) => {
         console.log(error);
@@ -65,6 +67,19 @@ export class NovedadesComponent implements OnInit {
     );
     this.novedadSeleccionada = new Novedad();
     this.novedadSeleccionada.usuario= new Usuario();
+    this.cargarNovedades();
+  }
+
+  public eliminarNovedadSeleccionada():void {
+    this._novedadService.deleteNovedad(this.novedadSeleccionada).subscribe(
+      (result) => {
+        this._toast.info("Novedad Eliminada", "Exito");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.novedadSeleccionada = new Novedad();
     this.cargarNovedades();
   }
 

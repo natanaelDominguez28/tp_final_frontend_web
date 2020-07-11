@@ -5,6 +5,9 @@ import { NgxDataTableModule } from 'angular-9-datatable';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FacebookModule } from 'ngx-fb';
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ToastrModule} from 'ngx-toastr';
+
 
 
 //servicios
@@ -52,8 +55,16 @@ import { NoticiasComponent } from './components/noticias/noticias.component';
     NgxDataTableModule,
     FormsModule,
     FacebookModule.forRoot(),
-    AlifeFileToBase64Module
-
+    AlifeFileToBase64Module,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      closeButton:true,
+      timeOut:3000,
+      progressBar:true,
+      progressAnimation:"increasing",
+      extendedTimeOut:2500,
+      maxOpened:7,
+    })
   ],
 
   //servicio

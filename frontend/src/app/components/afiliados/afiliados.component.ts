@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Afiliado } from '../../models/afiliado'
 import { AfiliadoService } from 'src/app/services/afiliado.service';
+import { ToastrService } from 'ngx-toastr'
+import { LoginService } from 'src/app/services/login.service';
+import * as printJS from 'print-js';
 
 @Component({
   selector: 'app-afiliados',
@@ -12,9 +15,10 @@ export class AfiliadosComponent implements OnInit {
   afiliadoSeleccionado: Afiliado;
   afiliadoSelAux: Afiliado;
   afiliados: Array<Afiliado>;
-  imagenConvertida:string
+  imagenConvertida: string
+  afiliadosJSON: JSON;
 
-  constructor(private _afiliadoService: AfiliadoService) {
+  constructor(private _afiliadoService: AfiliadoService, public _loginService: LoginService, private _toast: ToastrService) {
     this.afiliado = new Afiliado();
     this.afiliadoSelAux = new Afiliado();
     this.afiliadoSeleccionado = new Afiliado();
@@ -29,6 +33,7 @@ export class AfiliadosComponent implements OnInit {
     this._afiliadoService.getAfiliados().subscribe(
       (result) => {
         var afiliado: Afiliado = new Afiliado();
+        this.afiliadosJSON = result;
         result.forEach(element => {
           Object.assign(afiliado, element);
           this.afiliados.push(afiliado);
@@ -38,26 +43,47 @@ export class AfiliadosComponent implements OnInit {
       (error) => {
         console.log(error);
       }
-    )
+    );
+  }
+  public imprimir(): void {
+    printJS({
+      printable: this.afiliadosJSON,
+      properties: ['dni', 'apellido', 'nombre', "email", "telefono"],
+      type: 'json',
+      header: '<h3 class="h3">Lista de Afiliados</h3>',
+      gridHeaderStyle: 'color: red;  border: 2px solid #3971A5;',
+	    gridStyle: 'border: 2px solid #3971A5;'
+    })
   }
 
   public registrarAfiliado(): void {
     this._afiliadoService.addAfiliado(this.afiliado).subscribe(
       (result) => {
-        alert("Afiliado registado");
+        if (result.status==1){
+          this._toast.success(result.message, "Exito");
+          this.afiliado = new Afiliado();
+        }else{
+          if(result.status==2){
+            this._toast.error(result.message, "Error");
+          }else{
+            if(result.status==3){
+              this._toast.error(result.message, "Error");
+            }
+          }
+        }
+        console.log(result);
       },
       (error) => {
-        console.log(error);
+        this._toast.error(error, "Se ha producido un error");
       }
     );
-    this.afiliado = new Afiliado();
     this.cargarAfiliados();
   }
 
   public borrarAfiliadoSeleccionado(): void {
     this._afiliadoService.deleteAfiliado(this.afiliadoSeleccionado).subscribe(
       (result) => {
-        alert("Afiliado eliminado");
+        this._toast.info("Afiliado Eliminado", "Exito");
       },
       (error) => {
         console.log(error);
@@ -70,7 +96,7 @@ export class AfiliadosComponent implements OnInit {
   public modificarAfiliadoSeleccionado(): void {
     this._afiliadoService.updateAfiliado(this.afiliadoSeleccionado).subscribe(
       (result) => {
-        alert("Afiliado modificado");
+        this._toast.info("Afiliado Modificado", "Exito");
       },
       (error) => {
         console.log(error);
@@ -81,19 +107,17 @@ export class AfiliadosComponent implements OnInit {
   }
 
   public subirImagen(files): void {
-    console.log("ARCHIVO CONVERTIDO", files);
-    this.afiliado.imagen=files[0].base64;
+    this.afiliado.imagen = files[0].base64;
   }
 
   public subirImagen2(files): void {
-    console.log("ARCHIVO CONVERTIDO", files);
-    this.afiliadoSeleccionado.imagen=files[0].base64;
+    this.afiliadoSeleccionado.imagen = files[0].base64;
   }
   public seleccionarAfiliado(afiliado: Afiliado): void {
-      this.afiliadoSeleccionado = Object.assign({}, afiliado);
-    }
+    this.afiliadoSeleccionado = Object.assign({}, afiliado);
+  }
 
   public onUpload(e): void {
-      console.log("subiendo ", e.target.files[0]);
-    }
+    console.log("subiendo ", e.target.files[0]);
+  }
 }

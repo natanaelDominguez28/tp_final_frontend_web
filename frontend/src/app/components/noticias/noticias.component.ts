@@ -3,6 +3,7 @@ import { Noticia } from '../../models/noticia';
 import { NoticiaService } from '../../services/noticia.service';
 import { LoginService } from 'src/app/services/login.service';
 import { Usuario } from 'src/app/models/usuario';
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-noticias',
@@ -16,7 +17,7 @@ export class NoticiasComponent implements OnInit {
   desactivarGuardar = true;
   publicarEnFacebook=false;
 
-  constructor(private _noticiaService: NoticiaService, public _loginService: LoginService) {
+  constructor(private _noticiaService: NoticiaService, public _loginService: LoginService, private _toast:ToastrService) {
     this.cleanNoticia();
     this.cleanNoticiaSeleccionada();
     this.noticias = new Array<Noticia>();
@@ -28,15 +29,16 @@ export class NoticiasComponent implements OnInit {
     this.noticia.usuario = this._loginService.userLogged;
     this._noticiaService.addNoticia(this.noticia).subscribe(
       (result) => {
-        alert("Noticia publicada");
+        this._toast.success("Noticia publicada","Exito");
         this.cargarNoticias();
       },
       (error) => {
         console.log(error);
-      }
+      } 
     );
     if(this.publicarEnFacebook==true){
       this._noticiaService.publicarEnfb(this.noticia);
+      this._toast.success("Noticia publicada en facebook","Exito");
     }
     this.cleanNoticia();
   }
@@ -44,7 +46,7 @@ export class NoticiasComponent implements OnInit {
   public borrarNoticiaSeleccionada(): void {
     this._noticiaService.deleteNoticia(this.noticiaSeleccionada).subscribe(
       (result) => {
-        alert("Noticia eliminada");
+        this._toast.info("Noticia Eliminada","Exito");
       },
       (error) => {
         console.log(error);
@@ -60,7 +62,7 @@ export class NoticiasComponent implements OnInit {
     this.noticiaSeleccionada.fecha = new Date();
     this._noticiaService.updateNoticia(this.noticiaSeleccionada).subscribe(
       (result) => {
-        alert("Noticia modificada");
+        this._toast.info("Noticia Modificada","Exito");
         this.cargarNoticias();
       },
       (error) => {

@@ -20,14 +20,12 @@ export class HomeComponent implements OnInit {
 
   public cargarNoticias(): void {
     this.noticias = new Array<Noticia>();
-    this._noticiaService.getNoticias().subscribe(
+    this._noticiaService.getNoticiasActivas().subscribe(
       (result) => {
         var noticia: Noticia = new Noticia();
         result.forEach(element => {
           Object.assign(noticia, element);
-          if(noticia.vigente){
-            this.noticias.push(noticia);
-          }
+          this.noticias.push(noticia);
           noticia = new Noticia();
         });
       },

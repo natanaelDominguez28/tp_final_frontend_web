@@ -1,4 +1,4 @@
-<div *ngIf="_loginService.userLogged.perfil=='administrador'">
+<div *ngIf="_loginService.userLogged.perfil=='administrador' || _loginService.userLogged.perfil=='gerente'">
     <form class="card" method="POST" #formUsuario="ngForm">
         <div class="card-header text-center">
             <h3 class="h3">Gestion de Usuarios</h3>
@@ -11,7 +11,7 @@
             </div>
             <div class="row form-group">
                 <label for="pasword" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Contraseña</label>
-                <input id="pasword" class="form-control col-sm-12 col-md-2" type="text" required minlength="2"
+                <input id="pasword" class="form-control col-sm-12 col-md-2" type="password" required minlength="2"
                     maxlength="30" name="pasword" #pasword="ngModel" [(ngModel)]="usuarioa.password" />
             </div>
             <div class="row form-group">
@@ -23,7 +23,7 @@
             </div>
             <div class="row form-group">
                 <label for="activo" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Activo</label>
-                <input type="checkbox"  id="activo" name="activo" required [checked]="usuarioa.activo"
+                <input type="checkbox" id="activo" name="activo" required [checked]="usuarioa.activo"
                     (change)="cambiarActivo($event)">
             </div>
             <div class="row form-group justify-content-center">
@@ -63,8 +63,9 @@
                         <td>{{i.perfil}}</td>
                         <td>
                             <div class="row form-group">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" 
-                                data-target="#exampleModalCenter" (click)="seleccionarUsuario(i)">Seleccionar</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModalCenter"
+                                    (click)="seleccionarUsuario(i)">Seleccionar</button>
                             </div>
                         </td>
                     </tr>
@@ -77,6 +78,9 @@
                     </tr>
                 </tfoot>
             </table>
+            <div class="row form-group justify-content-center">
+                <button type="button" class="btn btn-primary" (click)="imprimir()">Imprimir</button>
+            </div>
         </div>
     </form>
     <!--Modal-->
@@ -92,33 +96,38 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body card-body">
-                    <div class="form-group">
-                        <label class="h6" for="mUsuario">Usuario: </label>
-                        <input type="text" class="form-control" id="mUsuario" name="mUsuario" required minlength="2"
-                            maxlength="30" #mUsuario="ngModel"[(ngModel)]="usuarioSeleccionado.usuario">
+                <form action="POST" #formUsuarioM="ngForm">
+                    <div class="modal-body card-body">
+                        <div class="form-group">
+                            <label class="h6" for="mUsuario">Usuario: </label>
+                            <input type="text" class="form-control" id="mUsuario" name="mUsuario" required minlength="2"
+                                maxlength="30" #mUsuario="ngModel" [(ngModel)]="usuarioSeleccionado.usuario">
+                        </div>
+                        <div class="form-group">
+                            <label class="h6" for="mPassword">Contraseña: </label>
+                            <input type="password" class="form-control" id="mPassword" name="mPassword" required
+                                minlength="2" maxlength="30" #mPassword="ngModel"
+                                [(ngModel)]="usuarioSeleccionado.password">
+                        </div>
+                        <div class="form-group">
+                            <label class="h6" for="mEstado">Perfil: </label>
+                            <select id="mEstado" class="form-control" required name="mEstado"
+                                [(ngModel)]="usuarioSeleccionado.perfil" (change)="desactivarGuardar=false">
+                                <option *ngFor="let perfil of perfiles" [ngValue]="perfil">{{perfil}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="h6" for="mPerfil">Activo: </label>
+                            <input class="" type="checkbox" id="mPerfil" name="mPerfil" required
+                                [checked]="usuarioSeleccionado.activo" (change)="cambiarActivo2($event)">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="h6" for="mPassword">Contraseña: </label>
-                        <input type="text" class="form-control" id="mPassword" name="mPassword" required minlength="2"
-                            maxlength="30" #mPassword="ngModel"[(ngModel)]="usuarioSeleccionado.password">
-                    </div>
-                    <div class="form-group">
-                        <label class="h6" for="mEstado">Perfil: </label>
-                        <select id="mEstado" class="form-control" required name="mEstado"
-                            [(ngModel)]="usuarioSeleccionado.perfil" (change)="desactivarGuardar=false">
-                            <option *ngFor="let perfil of perfiles" [ngValue]="perfil">{{perfil}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="h6" for="mPerfil">Activo: </label>
-                        <input class="" type="checkbox" id="mPerfil" name="mPerfil" required [checked]="usuarioSeleccionado.activo"
-                    (change)="cambiarActivo2($event)">
-                    </div>
-                </div>
+                </form>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        (click)="borrarUsuarioSeleccionado()">Eliminar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="desactivarGuardar"
+                    <button type="button" class="btn btn-success" [disabled]="formUsuarioM.invalid" data-dismiss="modal"
                         (click)="modificarUsuarioSeleccionado()">Modificar</button>
                 </div>
             </div>

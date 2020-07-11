@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="_loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='gerente'">
     <form class="card" method="POST" #formPago="ngForm">
         <div class="card-header text-center">
             <h3 class="h3">Gestion de Pagos</h3>
@@ -95,6 +95,10 @@
                     </tr>
                 </tfoot>
             </table>
+            <div class="row form-group justify-content-center">
+                <button type="button" class="btn btn-primary"
+                    (click)="imprimir()">Imprimir</button>
+            </div>
         </div>
     </form>
     <!--Modal-->

@@ -35,6 +35,18 @@ export class AfiliadoService {
     return this._http.post(this.urlBase,body,httpOptions);
   }
 
+  buscarAfiliado(email:string):Observable<any>{
+    console.log("buscar afiliadooo")
+    const httpOptions={
+      headers:new HttpHeaders({
+        "Content-Type":"application/json"
+      })
+    };
+    var body=JSON.stringify({email:email});
+    console.log("body"+body);
+    return this._http.post(this.urlBase+"buscar",body,httpOptions);
+  }
+
   deleteAfiliado(afiliado:Afiliado):Observable<any>{
     console.log("borrar afiliado")
     const httpOptions={

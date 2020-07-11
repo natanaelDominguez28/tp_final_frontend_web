@@ -17,13 +17,11 @@
         </div>
         <br>
     </form>
-    <div class="card" *ngIf="_loginService.userLogged.perfil=='administrador' || _loginService.userLogged.perfil=='administrativo'">
+    <div class="card" *ngIf="_loginService.userLogged.perfil=='gerente' || _loginService.userLogged.perfil=='administrativo'">
         <div class="card-header text-center text-center">
             <h3>Gestionar Novedades</h3>
         </div>
-
         <table class="table table-striped col-sm-12 card-body" [mfData]="novedades" #mf="mfDataTable" [mfRowsOnPage]="5">
-
             <thead class="thead-light">
                 <tr>
                     <th style="width:15%;" scope="col">
@@ -92,6 +90,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                        (click)="eliminarNovedadSeleccionada()">Eliminar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="desactivarGuardar"
                         (click)="modificarNovedadSeleccionada()">Guardar</button>

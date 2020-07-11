@@ -30,7 +30,18 @@ export class LoginService {
     this.userLoggedIn = false;
     //se elimina el token de sessionStorage
     sessionStorage.removeItem("token");
-
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("userLoggedIn");
+  }
+  getUsuarioLoggeado():Usuario{
+    return JSON.parse(localStorage.getItem("usuario"));
+  }
+  getUsuarioLoggedIn():boolean{
+    return JSON.parse(localStorage.getItem("userLoggedIn"));
+  }
+  getTokenLocal(): string {
+    return localStorage.getItem("token");
   }
 
   getToken(): string {

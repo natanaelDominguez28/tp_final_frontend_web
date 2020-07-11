@@ -1,7 +1,7 @@
-<div>
+<div *ngIf="_loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='gerente'">
     <form class="card" method="POST" action="" #formAfiliado="ngForm">
         <div class="card-header text-center">
-            <h3 class="h3">Gestion de Afiliados</h3>
+            <h3 class="h3">Gestión de Afiliados</h3>
         </div>
         <div class="card-body">
             <div class="row form-group">
@@ -76,7 +76,18 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <mfBootstrapPaginator [rowsOnPageSet]='[5,10,15]'></mfBootstrapPaginator>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
+        <div class="row form-group justify-content-center">
+            <button type="button" class="btn btn-primary"
+                (click)="imprimir()">Imprimir</button>
+        </div>
     </form>
 
     <!--Modal-->

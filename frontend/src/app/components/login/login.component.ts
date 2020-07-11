@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   userform: Usuario = new Usuario();
   returnUrl: string;
   msglogin: string;
+  recuerdame = false;
 
   constructor(private _route: ActivatedRoute, private _router: Router, private _loginService: LoginService) { }
 
@@ -28,7 +29,6 @@ export class LoginComponent implements OnInit {
           if (user.status == 1) {
             //el token se guarda localmente
             sessionStorage.setItem("token", user.token);
-
             //vbles para mostrar-ocultar cosas en el header
             this._loginService.userLoggedIn = true;
             this._loginService.userLogged = user.usuarioCompleto;
@@ -44,6 +44,14 @@ export class LoginComponent implements OnInit {
           console.log(error);
         });
     console.log("usuario logeado" + this._loginService.userLogged);
+  }
+
+  public cambiarActivo(e): void {
+    if (e.target.checked == true) {
+      this.recuerdame = true;
+    } else {
+      this.recuerdame = false;
+    }
   }
 
 }

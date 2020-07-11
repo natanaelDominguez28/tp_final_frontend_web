@@ -1,5 +1,22 @@
-<div>
-    <form class="card" method="POST" #formServicio="ngForm">
+<div class="card" *ngIf="_loginService.userLogged.perfil=='socio'">
+    <h3 class="h3 text-center card-header">Servicios</h3>
+    <div class="row card-body">
+        <div *ngFor="let servicio of serviciosActivos" class="card text-center col-lg-6">
+            <div class="card-header">
+                <span class="h5">{{servicio.nombre}}</span>
+            </div>
+            <div class="card-body">
+                <img src="{{servicio.imagen}}" style=" width: 300px; height: 300px;" class="card-img-top center" alt="...">
+            </div>
+            <div class="card-footer text-muted">
+                <button type="button" class="btn btn-success" (click)="inscribirme(servicio)">Inscribirme</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf=" _loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='gerente' ">
+    <form class=" card" method="POST" #formServicio="ngForm">
         <div class="card-header text-center">
             <h3 class="h3">Gestion de Servicios</h3>
         </div>
@@ -10,14 +27,18 @@
                     maxlength="80" name="nombre" #nombre="ngModel" [(ngModel)]="servicio.nombre" />
             </div>
             <div class="row form-group">
-                <label for="imagen" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Imagen: </label>
-                <input id="imagen" class="form-control col-sm-12 col-md-3" type="text" required minlength="2"
-                    maxlength="80" name="imagen" #imagen="ngModel" [(ngModel)]="servicio.imagen" />
-            </div>
-            <div class="row form-group">
                 <label for="vigente" class="col-md-1 offset-md-4 offset-lg-4">Activo:</label>
                 <input type="checkbox" id="vigente" name="vigente" required [checked]="servicio.activo"
                     (change)="cambiarActivo($event)">
+            </div>
+            <div class="row form-group">
+                <label for="imagens" class="col-sm-12 col-md-1 offset-md-4 offset-lg-4">Imagen</label>
+                <input id="imagens" class="col-sm-12 col-md-3" type="file" alife-file-to-base64
+                    (onFileChanged)="subirImagen($event)" required name="imagens" />
+            </div>
+            <div class="row form-group">
+                <img src="{{servicio.imagen}}" alt="" name="base" width="80" height="80"
+                    class="col-sm-4 col-md-1 offset-md-4 offset-lg-5">
             </div>
             <div class="row form-group justify-content-center">
                 <button type="button" class="btn btn-success " [disabled]="formServicio.invalid"
@@ -25,7 +46,6 @@
             </div>
         </div>
         <br>
-
         <div>
             <!--Tabla-->
             <table class="table table-striped col-sm-12" [mfData]="servicios" #mf="mfDataTable" [mfRowsOnPage]="5">
@@ -52,7 +72,7 @@
                             {{i.nombre | slice:0:50}}
                         </td>
                         <td>
-                            {{i.imagen}}
+                            <img src="{{i.imagen}}" alt="" name="base" width="80" height="80" class="">
                         </td>
                         <td>
                             <input type="checkbox" [checked]="i.activo" disabled>
@@ -74,6 +94,9 @@
                     </tr>
                 </tfoot>
             </table>
+            <div class="row form-group justify-content-center">
+                <button type="button" class="btn btn-primary" (click)="imprimir()">Imprimir</button>
+            </div>
         </div>
     </form>
     <!--Modal-->
@@ -97,29 +120,35 @@
                             (click)="desactivarGuardar=false">
                     </div>
                     <div class="form-group">
-                        <label class="h6" for="mImagen">Imagen: </label>
-                        <input type="text" class="form-control" id="mImagen" name="mImagen" required minlength="2"
-                            maxlength="80" #mImagen="ngModel" [(ngModel)]="servicioSeleccionado.imagen"
-                            (click)="desactivarGuardar=false">
-                    </div>
-                    <div class="form-group">
                         <label class="h6" for="mActivo">Vigente : </label>
                         <label style="color: transparent;">--</label>
                         <input class="" type="checkbox" id="mActivo" name="mActivo" required
                             [checked]="servicioSeleccionado.activo" (change)="cambiarActivo2($event)">
                     </div>
+                    <div class="form-group">
+                        <label for="mImagen">Imagen</label>
+                        <input id="mImagen" class="form-control" type="file" alife-file-to-base64
+                            (onFileChanged)="subirImagen2($event)" name="mImagen" required />
+                    </div>
+                    <div class="form-group">
+                        <img src="{{servicioSeleccionado.imagen}}" alt="" width="80" height="80">
+                    </div>
+                    <br>
+                    <h5 class="h5 text-center">Afiliados Inscriptos</h5>
                     <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th scope="col">
                                     <select id="mAfiliado" class="form-control col-sm-12" name="mAfiliado"
-                                        #mAfiliado="ngModel" required [(ngModel)]="afiliado" (change)="desactivarAgregar=false;">
+                                        #mAfiliado="ngModel" required [(ngModel)]="afiliado"
+                                        (change)="desactivarAgregar=false;">
                                         <option *ngFor="let afiliado of afiliados" [ngValue]="afiliado">
                                             {{afiliado.apellido}} {{afiliado.nombres}} - {{afiliado.dni}}</option>
                                     </select>
                                 </th>
                                 <th scope="col">
-                                    <button class="btn btn-primary" (click)=agregarAfiliado() [disabled]="desactivarAgregar">Agregar</button>
+                                    <button class="btn btn-primary" (click)=agregarAfiliado()
+                                        [disabled]="desactivarAgregar">Agregar</button>
                                 </th>
                             </tr>
                         </thead>
@@ -134,6 +163,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="row form-group justify-content-center">
+                        <button type="button" class="btn btn-primary" (click)="imprimirAfiliados()">Imprimir</button>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"

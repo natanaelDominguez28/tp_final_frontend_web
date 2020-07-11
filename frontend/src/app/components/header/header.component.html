@@ -12,31 +12,22 @@
                 <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='socio'">
                     <a class="nav-link" [routerLink]="['novedades']">Contacto</a>
                 </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrador'">
+                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrador' || _loginService.userLogged.perfil=='gerente'">
                     <a class="nav-link" [routerLink]="['usuarios']">Usuarios</a>
                 </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrativo'">
+                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='gerente'">
                     <a class="nav-link" [routerLink]="['afiliados']">Afiliados</a>
                 </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrador'">
-                    <a class="nav-link" [routerLink]="['afiliados']">Afiliados</a>
-                </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrativo'">
+                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='gerente' || _loginService.userLogged.perfil=='socio'">
                     <a class="nav-link" [routerLink]="['servicios']">Servicios</a>
                 </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrador'">
-                    <a class="nav-link" [routerLink]="['servicios']">Servicios</a>
-                </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrativo'">
+                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='gerente'">
                     <a class="nav-link" [routerLink]="['pagos']">Pagos</a>
                 </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrador'">
-                    <a class="nav-link" [routerLink]="['pagos']">Pagos</a>
-                </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrador'">
+                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrativo' || _loginService.userLogged.perfil=='gerente'">
                     <a class="nav-link" [routerLink]="['novedades']">Novedades</a>
                 </li>
-                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='administrador'">
+                <li class="nav-item" *ngIf="_loginService.userLogged.perfil=='gerente'">
                     <a class="nav-link" [routerLink]="['noticias']">Noticias</a>
                 </li>
             </ul>

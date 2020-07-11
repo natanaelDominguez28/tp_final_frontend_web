@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="_loginService.userLogged.perfil=='gerente'">
     <form class="card" method="POST" #formNoticia="ngForm">
         <div class="card-header text-center">
             <h3 class="h3">Gestion de Noticias</h3>

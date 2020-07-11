@@ -16,10 +16,18 @@ export class ServicioService {
     console.log("obtener servicios")
     const httpOptions = {
       headers: new HttpHeaders({
-
       })
     };
     return this._http.get(this.urlBase, httpOptions);
+  }
+
+  getServiciosActivos(): Observable<any> {
+    console.log("obtener servicios activos")
+    const httpOptions = {
+      headers: new HttpHeaders({
+      })
+    };
+    return this._http.get(this.urlBase+"activos", httpOptions);
   }
 
   addServicio(servicio: Servicio): Observable<any> {
